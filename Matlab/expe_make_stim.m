@@ -6,9 +6,6 @@ function [i_correct, player, isi, trial] = expe_make_stim(options, difference, u
     % Medical Research Council, Cognition and Brain Sciences Unit, UK
     %--------------------------------------------------------------------------
     
-    options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
-    options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/processed';
-    
     dir_waves = dir([options.sound_path, '/*.wav']);
     syllable_list = {dir_waves.name};
     for i= 1:length(syllable_list)
@@ -144,9 +141,12 @@ function [y, fs] = straight_process(syll, t_f0, ser, options)
         if is_test_machine()
             straight_path = '../lib/STRAIGHTV40_006b';
         else
-%             straight_path = '~/Library/Matlab/STRAIGHTV40_006b'; %PT:
-%             this is ET computer?
-            straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
+            [~, name] = system('hostname');
+            if strncmp(name, '12-000-4372', 11)
+                straight_path = '/home/paolot/gitStuff/Beautiful/lib/STRAIGHTV40_006b';
+            else
+                straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
+            end
         end
         addpath(straight_path);
 
@@ -156,6 +156,11 @@ function [y, fs] = straight_process(syll, t_f0, ser, options)
             load(mat);
         else
             [x, fs] = audioread(wavIn);
+            % remove the stereo channel if present the files for gender are
+            % mono anyway, the second channel is empty
+            x(:, 2) = [];
+            x = squeeze(x); % PT: just to make sure
+            
             [f0, ap] = exstraightsource(x, fs);
             %old_f0 = f0;
             %f0(f0<80) = 0;

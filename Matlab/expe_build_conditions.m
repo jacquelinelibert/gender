@@ -11,12 +11,6 @@ function [expe, options] = expe_build_conditions(options)
 %--------------------------------------------------------------------------
 
 
-options.instructions.training = ['You are going to hear three triplets of different syllables.\nOne of the triplets is said with a different voice.\n'...
-    'Your task is to click on the button that corresponds to the different voice.\n\n'...
-    '-------------------------------------------------\n\n'...
-    ''];
-
-options.instructions.test = options.instructions.training;
 
 %----------- Signal options
 options.fs = 44100;
@@ -113,14 +107,13 @@ if is_test_machine
     options.sound_path = '~/Sounds/Dutch_CV/equalized';
     options.tmp_path   = '~/Sounds/Dutch_CV/processed';
 else
-    disp('-------------------------');
-    disp('--- On coding machine ---');
-    disp('-------------------------');
-    options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
-    options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/processed';
-    if ~isempty(dir('../Sounds/Dutch_CV/equalized'))
-        options.sound_path = '../Sounds/Dutch_CV/equalized';
-        options.tmp_path = '../Sounds/Dutch_CV/processed';
+    [~, name] = system('hostname');
+    if strncmp(name, '12-000-4372', 11) % PT's computer
+        options.sound_path = '/home/paolot/soundFiles/Sounds/NVA_words/equalized';
+        options.tmp_path = '/home/paolot/soundFiles/Sounds/NVA_words/processed';
+    else
+        options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
+        options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/processed';
     end
 end
 
@@ -135,15 +128,17 @@ end
 
 dir_waves = dir([options.sound_path, '/*.wav']);
 syllable_list = {dir_waves.name};
-for i= 1:length(syllable_list)
+options.n_syll = length(syllable_list);
+for i = 1 : options.n_syll
     syllable_list{i} = strrep(syllable_list{i}, '.wav', '');
 end
 
 options.syllables = syllable_list;
-options.n_syll = 3;
+
 
 options.inter_syllable_silence = 50e-3;
-options.syllable_duration = 200e-3;
+% options.syllable_duration = 200e-3;
+options.syllable_duration = 3000e-3; % PT adapted to words
 
 options.f0_contour_step_size = 1/3; % semitones
 options.f0_contours = [[-1 0 +1]; [+1 0 -1]; [-1 1 -1]+1/3; [1 -1 1]-1/3; [-1 -1 1]+1/3; [1 1 -1]-1/3; [-1 1 1]-1/3; [1 -1 -1]+1/3];
