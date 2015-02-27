@@ -96,20 +96,23 @@ options.n_wrd = 1;
 
 options.word_duration = 200e-3; %??
 % DONT KNOW WHAT THIS DOES
-% options.f0_contour_step_size = 1/3; % semitones
-% options.f0_contours = [[-1 0 +1]; [+1 0 -1]; [-1 1 -1]+1/3; [1 -1 1]-1/3; [-1 -1 1]+1/3; [1 1 -1]-1/3; [-1 1 1]-1/3; [1 -1 -1]+1/3];
+options.f0_contour_step_size = 1/3; % semitones
+options.f0_contours = [[-1 0 +1]; [+1 0 -1]; [-1 1 -1]+1/3; [1 -1 1]-1/3; [-1 -1 1]+1/3; [1 1 -1]-1/3; [-1 1 1]-1/3; [1 -1 -1]+1/3];
 
 % ==================================================== Build test block
 test = struct();
 
 itrial = 0;
 for ir = 1:options.test.total_ntrials 
-        condition = struct();
+%     condition = struct('voice', []);
         itrial = itrial + 1;
+        fprintf('%i #################### %i \n', itrial, ir);
         
-            for iv = 1:size(options.test.voices,1)
+%         for iv = 1:size(options.test.voices,1)
+        for iv = 1 : 3
             condition(itrial).voice = options.test.voices(iv);
-            end
+            fprintf('%s -- %s\n', condition(itrial).voice.label, options.test.voices(iv).label);
+        end
             %for iw = 1:length(options.words)
             %condition(itrial).word = options.words(iw); 
             
@@ -118,34 +121,34 @@ for ir = 1:options.test.total_ntrials
             
 end
         
-        condition.vocoder = 0;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(test,'conditions')
-            test.conditions = orderfields(condition);
-        else
-            test.conditions(end+1) = orderfields(condition);
-        end
+%         condition.vocoder = 0;
+% 
+%         % Do not remove these lines
+%         condition.i_repeat = ir;
+%         condition.done = 0;
+%         condition.attempts = 0;
+% 
+%         if ~isfield(test,'conditions')
+%             test.conditions = orderfields(condition);
+%         else
+%             test.conditions(end+1) = orderfields(condition);
+%         end
 
 end
 
 % Randomization of the order
 %options.n_blocks = length(test.conditions)/options.test.block_size;
-test.conditions = test.conditions(randperm(length(test.conditions)));
-
-% ====================================== Create the expe structure and save
-expe.test = test; 
-
-%--
-                
-if isfield(options, 'res_filename')
-    save(options.res_filename, 'options', 'expe');
-else
-    warning('The test file was not saved: no filename provided.');
-end
-end
-
+% test.conditions = test.conditions(randperm(length(test.conditions)));
+% 
+% % ====================================== Create the expe structure and save
+% expe.test = test; 
+% 
+% %--
+%                 
+% if isfield(options, 'res_filename')
+%     save(options.res_filename, 'options', 'expe');
+% else
+%     warning('The test file was not saved: no filename provided.');
+% end
+% end
+% 
