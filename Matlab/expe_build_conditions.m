@@ -21,35 +21,15 @@ else
 end
 options.ear = 'both'; % right, left or both
 
-%----------- Design specification
-options.test.n_repeat = 1; % Number of repetition per condition
-options.test.step_size_modifier = 1/sqrt(2);
-options.test.change_step_size_condition = 2; % When difference leq than this times step-size, decrease step-size
-options.test.change_step_size_n_trials = 15; % Change step-size every...
-options.test.initial_step_size  = 2; % Semitones
-options.test.starting_difference = 12; % Semitones
-options.test.down_up = [2, 1]; % 2-down, 1-up => 70.7%
-options.test.terminate_on_nturns = 8;
-options.test.terminate_on_ntrials = 100; % PT, changed to 100, was 150
-options.test.retry = 1; % Number of retry if measure failed
-options.test.threshold_on_last_n_trials = 6;
-
-options.training.n_repeat = 1;
-% options.training.step_size_modifier = 1/sqrt(2);
-options.training.step_size_modifier = 1; % PT: speed up the adaptive procedure
-options.training.change_step_size_condition = 1; % PT: speed up the adaptive procedure% When difference <= this, decrease step-size
-options.training.change_step_size_n_trials = 15; % Change step-size every...
-options.training.initial_step_size  = 3;% PT: speed up the adaptive procedure% Semitones
-options.training.starting_difference = 6;% PT: speed up the adaptive procedure % Semitones
-options.training.down_up = [2, 1]; % 2-down, 1-up => 70.7%
-options.training.terminate_on_nturns = 0; % PT uncomment because setUpGame uses this value
-options.training.terminate_on_ntrials = 3;
-options.training.retry = 0; % Number of retry if measure failed
-% options.training.threshold_on_last_n_trials = 6;
 
 %----------- Stimuli options
-options.test.f0s  = [242, 121, round(242*2^(5/12))]; % 242 = average pitch of original female voice
-options.test.sers = [1, 2^(-3.8/12), 2^(5/12)];
+% PT: these 2 are never used
+% options.test.f0s  = [242, 121, round(242*2^(5/12))]; % 242 = average pitch of original female voice
+% options.test.sers = [1, 2^(-3.8/12), 2^(5/12)]; 
+
+options.test.VTL = [0, 1.8, 3.6];
+options.test.sers = 2 .^ (-options.test.VTL ./ 12);
+options.test.f0s = [0, 6, 12];
 
 options.test.voices(1).label = 'female';
 options.test.voices(1).f0 = 242;
@@ -72,7 +52,7 @@ options.test.voices(5).f0 = options.test.voices(1).f0;
 options.test.voices(5).ser = 2^(-3.8/12);
 
 options.test.voices(6).label = 'child-gpr';
-options.test.voices(6).f0 = round(242*2^(5/12));
+options.test.voices(6).f0 = round(242 * 2^(5/12));
 options.test.voices(6).ser = 1;
 
 options.test.voices(7).label = 'child-vtl';
@@ -152,30 +132,27 @@ options.force_rebuild_sylls = 0;
 
 test = struct();
 
-for ir = 1:options.test.n_repeat
-    for i_vp = 1:size(options.test.voice_pairs, 1)
-
-        condition = struct();
-
-        condition.ref_voice = options.test.voice_pairs(i_vp, 1);
-        condition.dir_voice = options.test.voice_pairs(i_vp, 2);           
-
-        condition.vocoder = 0;
-
-        condition.visual_feedback = 1;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(test,'conditions')
-            test.conditions = orderfields(condition);
-        else
-            test.conditions(end+1) = orderfields(condition);
-        end
-
+for i_vp = 1:size(options.test.voice_pairs, 1)
+    
+    condition = struct();
+    
+    condition.ref_voice = options.test.voice_pairs(i_vp, 1);
+    condition.dir_voice = options.test.voice_pairs(i_vp, 2);
+    
+    condition.vocoder = 0;
+    
+    condition.visual_feedback = 1;
+    
+    % Do not remove these lines
+    condition.done = 0;
+    condition.attempts = 0;
+    
+    if ~isfield(test,'conditions')
+        test.conditions = orderfields(condition);
+    else
+        test.conditions(end+1) = orderfields(condition);
     end
+    
 end
 
 % Randomization of the order
@@ -186,35 +163,28 @@ test.conditions = test.conditions(randperm(length(test.conditions)));
 
 training = struct();
 
-for ir = 1:options.training.n_repeat
-    for i_vp = 1:size(options.training.voice_pairs, 1)
-
-        condition = struct();
-
-        condition.ref_voice = options.training.voice_pairs(i_vp, 1);
-        condition.dir_voice = options.training.voice_pairs(i_vp, 2);           
-
-        condition.vocoder = 0;
-
-        condition.visual_feedback = 1;
-
-        % Do not remove these lines
-        condition.i_repeat = ir;
-        condition.done = 0;
-        condition.attempts = 0;
-
-        if ~isfield(training,'conditions')
-            training.conditions = orderfields(condition);
-        else
-            training.conditions(end+1) = orderfields(condition);
-        end
-
+for i_vp = 1:size(options.training.voice_pairs, 1)
+    
+    condition = struct();
+    
+    condition.ref_voice = options.training.voice_pairs(i_vp, 1);
+    condition.dir_voice = options.training.voice_pairs(i_vp, 2);
+    
+    condition.vocoder = 0;
+    
+    condition.visual_feedback = 1;
+    
+    % Do not remove these lines
+    condition.done = 0;
+    condition.attempts = 0;
+    
+    if ~isfield(training,'conditions')
+        training.conditions = orderfields(condition);
+    else
+        training.conditions(end+1) = orderfields(condition);
     end
+    
 end
-
-% for testing purposes limit training set to 1 or 2 trials;
-% training.conditions = training.conditions(1);
-% this is useless, it won't stop if you make errors... 
 
 % Randomization of the order
 %training.conditions = training.conditions(randperm(length(training.conditions)));

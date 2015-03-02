@@ -1,11 +1,5 @@
 function [i_correct, player, isi, trial] = expe_make_stim(options, difference, u, condition)
 
-    %--------------------------------------------------------------------------
-    % Etienne Gaudrain <etienne.gaudrain@mrc-cbu.cam.ac.uk>
-    % 2010-03-16, 2011-10-20
-    % Medical Research Council, Cognition and Brain Sciences Unit, UK
-    %--------------------------------------------------------------------------
-    
     dir_waves = dir([options.sound_path, '/*.wav']);
     syllable_list = {dir_waves.name};
     for i= 1:length(syllable_list)
@@ -43,7 +37,9 @@ function [i_correct, player, isi, trial] = expe_make_stim(options, difference, u
 
 
             sf0 = f0(i)*2^(options.f0_contour_step_size*trial.f0_contours(j)/12);
-
+            
+            disp(sylls{j})
+            
             [y, fs] = straight_process(sylls{j}, sf0, ser(i), options);
 
             if fs~=options.fs
@@ -134,7 +130,8 @@ end
 function [y, fs] = straight_process(syll, t_f0, ser, options)
 
     wavIn = fullfile(options.sound_path, [syll, '.wav']);
-    wavOut = make_fname(wavIn, t_f0, ser, options.syllable_duration, options.tmp_path);
+%     wavOut = make_fname(wavIn, t_f0, ser, options.syllable_duration, options.tmp_path);
+    wavOut = make_fname(wavIn, t_f0, ser, NaN, options.tmp_path); % PT: modified according to EG e-mail to JL
 
     if ~exist(wavOut, 'file') || options.force_rebuild_sylls
 
