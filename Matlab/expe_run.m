@@ -19,6 +19,7 @@ function expe_run(varargin)
 
 options = struct();
 options = expe_options(options);
+options.result_path = 'C:\Users\Jacqueline Libert\Documents\GitHub\Gender\Results';
 
 options.subject_name  = subject;
 
@@ -28,11 +29,12 @@ options.subject_name  = subject;
 current_dir = fileparts(mfilename('fullpath'));
 added_path  = {};
 
-added_path{end+1} = '../lib/SpriteKit';
-added_path{end+1} = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit/';
+% added_path{end+1} = '../lib/SpriteKit';
+added_path{end+1} = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
 for i=1:length(added_path)
     addpath(added_path{i});
 end
+
 %-------------------------------------------------
 
 % Create result dir if necessary
