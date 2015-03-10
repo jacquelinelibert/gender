@@ -1,4 +1,4 @@
-function [expe, options] = expe_build_conditions(options)
+function [expe, options] = expe_build_conditions_rm(options)
 
 %--------------------------------------------------------------------------
 % Etienne Gaudrain <etienne.gaudrain@mrc-cbu.cam.ac.uk>
@@ -64,18 +64,18 @@ options.training.voices = options.test.voices;
 %--- Voice pairs
 % [ref_voice, dir_voice]
 options.test.voice_pairs = [...
-%     1 2;  % Female -> Male
+    1 2;  % Female -> Male
     1 4;  % Female -> Male GPR % only these two
     1 5;  % Female -> Male VTL % only these two
-%     1 3;  % Female -> Child
-%     1 6;  % Female -> Child GPR
-%     1 7;  % Female -> Child VTL
-%     2 1;  % Male   -> Female
-%     2 4;  % Male   -> Male GPR (is Female VTL)
-%     2 5;  % Male   -> Male VTL (is Female GPR)
-%     3 1;  % Child  -> Female
-%     3 6;  % Child  -> Child GPR (is Female VTL)
-%     3 7; % Child  -> Child VTL (is Female GPR)
+    1 3;  % Female -> Child
+    1 6;  % Female -> Child GPR
+    1 7;  % Female -> Child VTL
+    2 1;  % Male   -> Female
+    2 4;  % Male   -> Male GPR (is Female VTL)
+    2 5;  % Male   -> Male VTL (is Female GPR)
+    3 1;  % Child  -> Female
+    3 6;  % Child  -> Child GPR (is Female VTL)
+    3 7; % Child  -> Child VTL (is Female GPR)
 
 ];
 
