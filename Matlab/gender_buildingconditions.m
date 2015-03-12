@@ -28,6 +28,9 @@ function [expe, options] = gender_buildingconditions (options)
     % options.test.sers = [1, 2^(-1.8/12), 2^(3.6/12)];
     options.test.sers = 2.^([0 1.8 3.6]/12);
     nSers = length(options.test.sers);
+    
+    options.test.faces = {'woman','man'};
+    
 
 
     if is_test_machine
@@ -130,16 +133,18 @@ function [expe, options] = gender_buildingconditions (options)
     % end
     %
 
+    
     for ir = 1 : options.test.n_repeat
         for f0 = 1 : 3
             for ser = 1 : 3
                 for word = 1 : nWords
-
+                       
                     trial = struct();
 
                     trial.f0 = options.test.f0s(f0);
                     trial.ser = options.test.sers(ser);
                     trial.word = options.words{word};
+                    trial.face = options.test.faces(randi([1,2],1,1)); 
                     % PT: ? % trial.start_with_standard = randi(2)-1;
 
                     % PT: ? % [trial.syllables, trial.proposed_syll] = get_syllable_sequence(options.syllables, options.n_syll, options.rep_min_index, options.rep_max_index, options.n_rows*options.n_cols);

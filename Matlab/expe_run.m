@@ -22,6 +22,7 @@ options = expe_options(options);
 options.result_path = 'C:\Users\Jacqueline Libert\Documents\GitHub\Gender\Results';
 
 options.subject_name  = subject;
+options.result_prefix = 'gen_' 
 
 %-------------------------------------------------
 % Set appropriate path

@@ -48,10 +48,11 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
     
     tic();
     
+% Already in Main loop Temp 
     % Collect the response
-    uiwait();
-    response.response_time = toc();
-    response.timestamp = now();
+%     uiwait();
+%     response.response_time = toc();
+%     response.timestamp = now();
 
     
     % Fill the response structure
