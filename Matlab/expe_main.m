@@ -17,7 +17,6 @@ if strcmp(options.subject_name, 'tryout');
 end
 
 %=============================================================== MAIN LOOP
-results = struct();
 while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some trials to do
     
     
@@ -38,38 +37,12 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
     end
     
     % Find first trial not done
-    i = find([expe.( phase ).trials.done]==0, 1);
-    trial = expe.( phase ).trials(i);
+    itrial = find([expe.( phase ).trials.done]==0, 1);
+    trial = expe.( phase ).trials(itrial);
     
     % Prepare the stimulus
     [xOut, fs] = expe_make_stim(options, trial);
-<<<<<<< HEAD
-=======
-    player = audioplayer(xOut, fs, 16);
-    
-    pause(.5);
-    
-    % Play the stimulus
-    playblocking(player);
-    
-    tic();
-    
-% Already in Main loop Temp 
-    % Collect the response
-%     uiwait();
-%     response.response_time = toc();
-%     response.timestamp = now();
 
-    
-    % Fill the response structure
-    response.button_correct = find(trial.syll_order==1);
-    response.button_clicked = i_clicked;
-    response.syll_clicked   = trial.proposed_syll{trial.syll_order(i_clicked)};
-    response.correct = (response.button_clicked == response.button_correct);
-    response.trial = trial;
-    
->>>>>>> 3666e3ecf46ac87f278ecfdc612c662e312550d3
-    
     if ~autoplayer
         player = audioplayer(xOut, fs, 16);
         
@@ -102,7 +75,7 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
         end
     end
     % Mark the trial as done
-    expe.( phase ).trials(i).done = 1;
+    expe.( phase ).trials(itrial).done = 1;
     
     % Save the response
     save(options.res_filename, 'options', 'expe', 'results')
