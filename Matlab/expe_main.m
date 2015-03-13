@@ -43,6 +43,32 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
     
     % Prepare the stimulus
     [xOut, fs] = expe_make_stim(options, trial);
+<<<<<<< HEAD
+=======
+    player = audioplayer(xOut, fs, 16);
+    
+    pause(.5);
+    
+    % Play the stimulus
+    playblocking(player);
+    
+    tic();
+    
+% Already in Main loop Temp 
+    % Collect the response
+%     uiwait();
+%     response.response_time = toc();
+%     response.timestamp = now();
+
+    
+    % Fill the response structure
+    response.button_correct = find(trial.syll_order==1);
+    response.button_clicked = i_clicked;
+    response.syll_clicked   = trial.proposed_syll{trial.syll_order(i_clicked)};
+    response.correct = (response.button_clicked == response.button_correct);
+    response.trial = trial;
+    
+>>>>>>> 3666e3ecf46ac87f278ecfdc612c662e312550d3
     
     if ~autoplayer
         player = audioplayer(xOut, fs, 16);

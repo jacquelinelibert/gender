@@ -1,4 +1,4 @@
-function [i_correct, player, trial] = expe_make_stim(options, condition)
+function [i_correct, player, trial] = expe_make_stim_rm(options, condition)
 
     dir_waves = dir([options.sound_path, '/*.wav']);
     syllable_list = {dir_waves.name};
@@ -12,10 +12,9 @@ function [i_correct, player, trial] = expe_make_stim(options, condition)
 % PT: this is left over from fishy
 %     % Compute test voice
 %     new_voice_st = difference*u;
-%     
 %     trial.f0 = options.test.voices(trial.ref_voice).f0 * [1, 2^(new_voice_st(1)/12)];
 %     trial.ser = options.test.voices(trial.ref_voice).ser * [1, 2^(new_voice_st(2)/12)];
-    % Compute test voice
+%     Compute test voice
     
     trial.f0 = options.test.voices(trial.ref_voice).f0;
     trial.ser = options.test.voices(trial.ref_voice).ser;
