@@ -18,7 +18,7 @@ function [x, fs] = expe_make_stim(options, trial)
 %     k = mod(i+trial.start_with_standard,2)+1;
 %  ######    REMOVED PT ############    
 
-    [y, fs] = straight_process(trial.word, trial.f0, trial.ser, NaN, options);
+    [y, fs] = straight_process(trial.word, trial.f0, trial.vtl, NaN, options);
     
 %  PT:   vsq{k} = sprintf('%s%4s    ', vsq{k}, trial.word);
     
@@ -27,7 +27,7 @@ function [x, fs] = expe_make_stim(options, trial)
         fs = options.fs;
     end
     
-    dl = round(options.syllable_duration*fs) - length(y);
+    dl = round(options.word_duration*fs) - length(y);
     if dl>0
         npad_L = floor(dl/20);
         npad_R = dl-npad_L;
@@ -55,7 +55,7 @@ function [x, fs] = expe_make_stim(options, trial)
 %  ######    REMOVED PT ############
 
 
-    fprintf('F0: %5.1f Hz, SER: %4.2f -- %s\n', trial.f0, trial.ser);
+    fprintf('F0: %5.1f Hz, VTL: %4.2f -- %s\n', trial.f0, trial.vtl);
 
     if ~isnan(options.lowpass)
         [b, a] = butter(4, options.lowpass*2/fs, 'low');
@@ -94,19 +94,24 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
     wavOut = make_fname(wavIn, nb_st, vtl, d, options.tmp_path);
 
     disp(word)
-    if ~exist(wavOut, 'file') || options.force_rebuild_sylls
+%     if ~exist(wavOut, 'file') || options.force_rebuild_sylls % PT: forced
+%     rebuilding?
+    if ~exist(wavOut, 'file')
 
         addpath(options.straight_path);
 
         mat = strrep(wavIn, '.wav', '.straight.mat');
-
+        
+        disp(wavIn)
+        disp(mat)
+        
         if exist(mat, 'file')
             load(mat);
         else
             [x, fs] = audioread(wavIn);
             % PT: remove the stereo channel if present the files for gender
             % are mono anyway, the second channel is empty
-            x(:, 2) = [];
+%             x(:, 2) = [];
             % x = squeeze(x); % PT: just to make sure
             [f0, ap] = exstraightsource(x, fs);
             sp = exstraightspec(x, f0, fs);
@@ -117,10 +122,17 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
         %f0(f0~=0) = f0(f0~=0) / mf0 * t_f0;
         f0(f0~=0) = f0(f0~=0) * 2^(nb_st/12);
 %         p.timeAxisMappingTable = (d*1e3)/length(f0);
-        ser = 2 ^ -(vtl/12);
-        p.frequencyAxisMappingTable = ser;
+        p.frequencyAxisMappingTable = 2 ^ -(vtl/12);
         y = exstraightsynth(f0, sp, ap, fs, p);
-
+        % [f0raw,ap,analysisParams]=exstraightsource(x,fs);
+        % n3sgram = exstraightspec(x, f0raw, fs);
+        % [sy,prmS] = exstraightsynth(f0raw,n3sgram,ap,fs);
+        % prmS.frequencyAxisMappingTable = ser;
+        % [sy,prmS] = exstraightsynth(f0raw,n3sgram,ap,fs,prmS);
+        
+%         [sy,prmS] = exstraightsynth(f0,sp,ap,fs);
+%         [sy,prmS] = exstraightsynth(f0,sp,ap,fs,prmS)
+        
         y = y/rms(y)*x_rms;
         if max(abs(y))>1
             warning('Output was renormalized for "%s".', wavOut);
@@ -130,7 +142,7 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
 
         rmpath(options.straight_path);
     else
-        [y, fs] = wavread(wavOut);
+        [y, fs] = audioread(wavOut);
     end
 
 end

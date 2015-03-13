@@ -11,9 +11,13 @@ load(options.res_filename); % options, expe, results
 nbreak = 0;
 starting = 1;
 
+autoplayer = false;
+if strcmp(options.subject_name, 'tryout');
+    autoplayer = true;
+end
 
 %=============================================================== MAIN LOOP
-
+results = struct();
 while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some trials to do
     
     
@@ -39,36 +43,38 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
     
     % Prepare the stimulus
     [xOut, fs] = expe_make_stim(options, trial);
-    player = audioplayer(xOut, fs, 16);
     
-    pause(.5);
-    
-    % Play the stimulus
-    playblocking(player);
-    
-    tic();
-    
-    % Collect the response
-    uiwait();
-    response.response_time = toc();
-    response.timestamp = now();
-
-    
-    % Fill the response structure
-    response.button_correct = find(trial.syll_order==1);
-    response.button_clicked = i_clicked;
-    response.syll_clicked   = trial.proposed_syll{trial.syll_order(i_clicked)};
-    response.correct = (response.button_clicked == response.button_correct);
-    response.trial = trial;
-    
-    
-    % Add the response to the results structure
-    if ~isfield(results, phase)
-        results.( phase ).responses = orderfields( response );
-    else
-        results.( phase ).responses(end+1) = orderfields( response );
+    if ~autoplayer
+        player = audioplayer(xOut, fs, 16);
+        
+        pause(.5);
+        
+        % Play the stimulus
+        playblocking(player);
+        
+        tic();
+        
+        % Collect the response
+        uiwait();
+        response.response_time = toc();
+        response.timestamp = now();
+        
+        
+        % Fill the response structure
+        response.button_correct = find(trial.syll_order==1);
+        response.button_clicked = i_clicked;
+        response.syll_clicked   = trial.proposed_syll{trial.syll_order(i_clicked)};
+        response.correct = (response.button_clicked == response.button_correct);
+        response.trial = trial;
+        
+        
+        % Add the response to the results structure
+        if ~isfield(results, phase)
+            results.( phase ).responses = orderfields( response );
+        else
+            results.( phase ).responses(end+1) = orderfields( response );
+        end
     end
-    
     % Mark the trial as done
     expe.( phase ).trials(i).done = 1;
     
