@@ -36,6 +36,7 @@ function [expe, options] = gender_buildingconditions (options)
         [~, name] = system('hostname');
         if strncmp(name, '12-000-4372', 11) % PT's computer
             options.sound_path = '~/soundFiles/Sounds/NVA_words/equalized';
+%             options.sound_path = '~/downloads/playSounds/monoEqualLength/';
             options.tmp_path   = '~/soundFiles/Sounds/NVA_words/processed';
         else
             options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
@@ -61,7 +62,7 @@ function [expe, options] = gender_buildingconditions (options)
 
     % options.n_wrd = 4;
 
-    options.word_duration = 2500e-3; % PT adapted to words
+    options.word_duration = 850e-3; % PT adapted to words
     options.lowpass = 4000;
     options.force_rebuild_sylls = 0;
 

@@ -32,13 +32,18 @@ function [x, fs] = expe_make_stim(options, trial)
         npad_L = floor(dl/20);
         npad_R = dl-npad_L;
         nr = floor(1e-3*fs);
-        y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';
+        y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';% PT: matrix error
         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)';
         y = [zeros(npad_L,1); y; zeros(npad_R,1)];
+%         y(1:nr) = y(1:nr) .* linspace(0, 1, nr);
+%         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr);
+%         y = [zeros(npad_L,1); y; zeros(npad_R,1)];
     elseif dl<0
         y = y(1:end+dl);
         nr = floor(1e-3*fs); % 1 ms linear ramp at the end
-        y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)';
+%         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)'; % PT:
+%         this gives a matrix dimensions must agree error
+        y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr);
     else
         nr = floor(1e-3*fs);
         y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';
