@@ -14,6 +14,8 @@ function options = expe_options(options)
             options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
             options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/processed';
             options.straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
+            options.result_path   = '../Results';
+            options.result_prefix = 'gen_';
         end
 
     end

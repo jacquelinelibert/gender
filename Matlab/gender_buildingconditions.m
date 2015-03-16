@@ -22,10 +22,8 @@ function [expe, options] = gender_buildingconditions (options)
     %  added training, maybe for young kids good to see if they understand
 
     % -------- Stimuli options
-    % options.test.f0s  = [242, 121]; % 242 = average pitch of original female voice
     options.test.f0s = [0 -6 -12];
     nF0 = length(options.test.f0s);
-    % options.test.sers = [1, 2^(-1.8/12), 2^(3.6/12)];
     options.test.vtls = [0 1.8 3.6];
     nVtls = length(options.test.vtls);
     
@@ -72,11 +70,16 @@ function [expe, options] = gender_buildingconditions (options)
 
     % ==================================================== Build test block
 
-    options.test.faces = {'woman1','woman2','woman3','man1','man2','man3'};
+    options.test.faces = {'woman_1','woman_2','woman_3','man_1','man_2','man_3'};
     indexes = repmat([1:6], 1, 9);
     indexes = indexes(randperm(length(indexes)));
     options.test.faces = options.test.faces(indexes);
-
+    
+    options.test.hands = {'handbang_%d', 'handremote_%d'}; % + 'handknob_%d';
+    indexing = repmat ([1:2], 1, 27);
+    indexing = indexing (randperm(length(indexes)));
+    options.test.hands = options.test.hands(indexing);
+    
     test = struct();
 
     counter = 1;
@@ -104,6 +107,7 @@ function [expe, options] = gender_buildingconditions (options)
                     trial.i_repeat = ir;
                     trial.done = 0;
                     trial.face = options.test.faces{counter};
+                    trial.hands = options.test.hands{counter};
                     if ~isfield(test,'trials')
                         test.trials = orderfields(trial);
                     else
