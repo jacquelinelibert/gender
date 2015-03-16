@@ -1,15 +1,14 @@
 function [G, bkg, TVScreen, Buttonup, Buttondown, screen2, Speaker, gameCommands, Hands] = GenderGame  
 %      Setup Game 
 
-    [~, name] = system('hostname');
-    if strncmp(name, '12-000-4372', 11)
-        spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
-        
-     else
-        spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-%         spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
-    end
-%     spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+[~, name] = system('hostname');
+%     if strncmp(name, '12-000-4372', 11)
+%         %spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+%         spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+%      else
+%          spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
+%     end
+    spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
     addpath(spriteKitPath);
 
 [~, screen2] = getScreens();
@@ -35,7 +34,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
      pngFile = ['../Images/' spritename '.png'];
      TVScreen.initState(spritename , pngFile, true);
  end
- for iman = 1:7
+ for iman = 1:3
       spritename = sprintf('man_%d', iman);
       pngFile = ['../Images/' spritename '.png'];
       TVScreen.initState (spritename, pngFile, true);
@@ -121,9 +120,8 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
       spritename = sprintf('handbang_%d',ihandbang);
       pngFile = ['../Images/' spritename '.png'];
       Hands.initState(spritename , pngFile, true);
+      Hands.Location = [screen2(3)/1.6, screen2(4)/1.4];
   end
-  addprop(Hands, 'locHands');
-  Hands.locHands{1}  = [screen2(3)/1.6, screen2(4)/1.4];
 %   for ihandknob = 1:3
 %       spritename = sprintf('handknob_%d',ihandknob);
 %       pngFile = ['../Images/' spritename '.png'];
@@ -134,8 +132,8 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
       spritename = sprintf('handremote_%d', ihandremote);
       pngFile = ['../Images/' spritename '.png'];
       Hands.initState (spritename, pngFile, true);
+      Hands.Location = [screen2(3)/4.5, screen2(4)/6.5]; % for handremote
   end
-  Hands.locHands{2} = [screen2(3)/6.8, screen2(4)/6.8]; % for handremote
   Hands.State = 'off';
   % Hands.Location = [screen2(3)/6.5, screen2(4)/4.5]; % for handremote
 end

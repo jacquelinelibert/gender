@@ -77,15 +77,13 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
         end
         
         locHand = 1;
-        if (strncmp(expe.(phase).trials(itrial).hands, 'handremote',10))
-            locHand = 2;
-        end
+        expe.(phase).trials(itrial).hands
+        
         for handstate = 1:2
             Hands.State = sprintf('%s%d', expe.(phase).trials(itrial).hands, handstate);
-            Hands.Location = [Hands.locHands{locHand}];
-            pause (0.2)
+            pause (0.4)
         end
-        pause (0.4)
+        
         Hands.State = 'off';
         pause(0.5)
         TVScreen.State = expe.(phase).trials(itrial).face;

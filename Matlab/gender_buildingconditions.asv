@@ -78,9 +78,9 @@ function [expe, options] = gender_buildingconditions (options)
     indexes = indexes(randperm(length(indexes)));
     indexes(end) = [];
     indexesM = repmat([8:14], 1, 4);
-    indexesM = indexesM(randperm(length(indexesM)));
-    indexesM(end) = [];
-    indexes = [indexes indexesM];
+    indexesM = indexes(randperm(length(indexes)));
+    indexes(end) = [];
+    
     indexes = indexes(randperm(length(indexes)));
     options.test.faces = options.test.faces(indexes);
     

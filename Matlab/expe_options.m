@@ -11,10 +11,10 @@ function options = expe_options(options)
             options.result_prefix = 'streaming2013_';
             options.straight_path = '/home/paolot/gitStuff/Beautiful/lib/STRAIGHTV40_006b';
         else
-            options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/equalized';
-            options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Sounds/NVA_words/processed';
+            options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/equalized';
+            options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/processed';
             options.straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
-            options.result_path   = '../Results';
+            options.result_path   = '../results';
             options.result_prefix = 'gen_';
         end
 
