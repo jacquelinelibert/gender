@@ -30,17 +30,17 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  TVScreen.initState('off', ones(1,1,3),true); % whole screen green
  TVScreen.initState ('noise', '../Images/TVScreen_noise.png', true);
  for iwoman=1:3
-     spritename = sprintf('TVwoman_%d',iwoman);
+     spritename = sprintf('woman_%d',iwoman);
      pngFile = ['../Images/' spritename '.png'];
      TVScreen.initState(spritename , pngFile, true);
  end
  for iman = 1:2
-      spritename = sprintf('TVman_%d', iman);
+      spritename = sprintf('man_%d', iman);
       pngFile = ['../Images/' spritename '.png'];
       TVScreen.initState (spritename, pngFile, true);
   end
  TVScreen.Location = [screen2(3)/2.58, screen2(4)/2.15];
- TVScreen.State = 'TVman_2';
+ TVScreen.State = 'off';
 %  TVScreen.Scale = 1.2
 %  ratioscreentvscreen = 0.81 * screen2(3);
 %  [~, WidthTVScreen] = size(imread ('../Images/TVwoman_1.png'));
@@ -61,7 +61,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
  Buttonup.initState ('off', ones(1,1,3), true);
  Buttonup.Location = [screen2(3)/1.65, screen2(4)/5.5];
- Buttonup.State = 'on';
+ Buttonup.State = 'off';
  [HeightButtonup, WidthButtonup] = size(imread ('../Images/buttonup_1.png'));
  
  addprop(Buttonup, 'clickL');
@@ -79,7 +79,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
  Buttondown.initState ('off', ones(1,1,3), true);
  Buttondown.Location = [screen2(3)/1.40, screen2(4)/5.5];
- Buttondown.State = 'on';
+ Buttondown.State = 'off';
  [HeightButtondown, WidthButtondown] = size(imread ('../Images/buttondown_1.png'));
  
  addprop(Buttondown, 'clickL');
@@ -97,9 +97,9 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  initState(gameCommands, 'begin','../Images/start.png' , true);
  initState(gameCommands, 'finish','../Images/finish.png' , true);
  initState(gameCommands, 'empty', ones(1,1,3), true); % to replace the images, 'none' will give an annoying warning
- gameCommands.State = 'empty';
- gameCommands.Location = [screen2(3)/2, screen2(4)/2];
- gameCommands.Scale = 1.3; % make it bigger to cover fishy
+ gameCommands.State = 'begin';
+ gameCommands.Location = [screen2(3)/2.5, screen2(4)/2.5];
+ gameCommands.Scale = 1; % make it bigger to cover fishy
  % define clicking areas
  clickArea = size(imread('../Images/start.png'));
  addprop(gameCommands, 'clickL');
@@ -116,7 +116,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
   %     Hands 
   Hands = SpriteKit.Sprite ('hands');
   Hands.initState ('off', ones (1,1,3), true);
-  for ihandbang = 2:3
+  for ihandbang = 1:2
       spritename = sprintf('handbang_%d',ihandbang);
       pngFile = ['../Images/' spritename '.png'];
       Hands.initState(spritename , pngFile, true);
@@ -134,6 +134,6 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
       Hands.initState (spritename, pngFile, true);
       Hands.Location = [screen2(3)/4.5, screen2(4)/6.5]; % for handremote
   end
-  Hands.State = 'handremote_2';
-  Hands.Location = [screen2(3)/6.5, screen2(4)/4.5]; % for handremote
+  Hands.State = 'off';
+  % Hands.Location = [screen2(3)/6.5, screen2(4)/4.5]; % for handremote
 end

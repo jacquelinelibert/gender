@@ -2,13 +2,13 @@ function expe_run(varargin)
 % function expe_run(subject, phase)
 % expe_run('tryout', 'testing')
 
-    
-    subject = 'tryout';
-    phase = 'test';
-    if nargin > 0
-        subject = varargin{1};
-        phase = varargin{2};
-    end    
+
+     subject = 'tryout';
+     phase = 'test';
+     if nargin > 0
+         subject = varargin{1};
+         phase = varargin{2};
+     end    
 % expe_run(subject, phase)
 %   phase can be: 'training', 'test'
 
@@ -21,7 +21,7 @@ options = struct();
 options = expe_options(options);
 
 options.subject_name  = subject;
-options.result_prefix = 'gen_' 
+options.result_prefix = 'gen_'; 
 
 %-------------------------------------------------
 % Set appropriate path
