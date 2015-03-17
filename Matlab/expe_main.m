@@ -1,52 +1,46 @@
-function expe_main(options, phase)
+function expe_main(expe, options, phase)
 
-%--------------------------------------------------------------------------
-% Etienne Gaudrain <e.p.c.gaudrain@umcg.nl> - 2013-02-24
-% RuG / UMCG KNO, Groningen, NL
-%--------------------------------------------------------------------------
+    results = struct();
+    
+    starting = 0;
 
-results = struct();
-load(options.res_filename); % options, expe, results
+    autoplayer = false;
+    if strcmp(options.subject_name, 'tryout');
+        autoplayer = true;
+    end
 
-[expe, options] = gender_buildingconditions(options);
-nbreak = 0;
-starting = 0;
-
-autoplayer = false;
- if strcmp(options.subject_name, 'tryout');
-     autoplayer = true;
- end
-
-%% ------------- Game
-[G, bkg, TVScreen, Buttonup, Buttondown, screen2, Speaker, gameCommands, Hands] = GenderGame; 
-G.onMouseRelease = @buttondownfcn;
+    %% ------------- Game
+    if (mean([expe.(phase).trials.done])~=1)
+        [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = GenderGame;
+        G.onMouseRelease = @buttondownfcn;
+    else
+        opt = char(questdlg(sprintf('%s phase COMPLETE. Run again', phase),'CRM','Yes','No','Yes'));
+        switch opt
+            case 'Yes'
+                if ~strcmp(options.subject_name, 'tryout');
+                    resultsFiles = dir([options.result_path '/*.mat']);
+                    nRep = length(resultsFiles) - sum(cellfun('isempty', regexp({resultsFiles.name}, options.subject_name)));
+                    nRep = nRep + 1;
+                    options.subject_name  = sprintf('%s%s_%02.0f.mat', options.result_prefix, options.subject_name, nRep);
+                    options.res_filename = fullfile(options.result_path, options.subject_name);
+                end
+                [expe, options] = gender_buildingconditions(options);
+            case 'No'
+                return
+        end
+    end
 
 %=============================================================== MAIN LOOP
-while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some trials to do 
+    while mean([expe.(phase).trials.done])~=1 % Keep going while there are some trials to do
     
      
-    % If we start, display a message
-    if starting == 0
-        uiwait();
-    end   
-%         uiwait(msg.w);
-%         close(msg.w);
-        
-%         opt = char(questdlg(sprintf('Ready to start the %s?', strrep(phase, '_', ' ')),'','Go','Cancel','Go'));
-%         switch lower(opt)
-%             case 'cancel'
-%                 break
-%         end
-        
-   
-%%    
-    % Find first trial not done
-    itrial = find([expe.( phase ).trials.done]==0, 1);
-    trial = expe.( phase ).trials(itrial); 
-    
-    
-
-%     for itrial = 1 : options.(phase).total_ntrials        
+        % If we start, display a message
+        if starting == 0
+            uiwait();
+        end   
+        % Find first trial not done
+        itrial = find([expe.( phase ).trials.done]==0, 1);
+        trial = expe.( phase ).trials(itrial); 
         
         TVScreen.State = 'off';
         Buttonup.State = 'off';
@@ -54,16 +48,13 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
         pause(1);
         TVScreen.State = 'noise'; 
     
-    % Prepare the stimulus
-    [xOut, fs] = expe_make_stim(options, trial);
+        [xOut, fs] = expe_make_stim(options, trial);
 
         player = audioplayer(xOut, fs, 16);
         
         pause(.5);
         iter = 1;
         
-     % Play the stimulus
-%       playblocking(player)
         play (player)
         while true
             TVScreen.State = 'noise'; 
@@ -99,29 +90,20 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
             response.timestamp = now();
         else
             tic();
-            
-            % Collect the response
             uiwait();
             response.response_time = toc();
             response.timestamp = now();
-            
         end
-
-            response.trial = trial;
-            
-            
-            % Add the response to the results structure
-            if ~isfield(results, phase)
-                results.( phase ).responses = orderfields( response );
-            else
-                results.( phase ).responses(end+1) = orderfields( response );
-            end
+        response.trial = trial;
+        if ~isfield(results, phase)
+            results.( phase ).responses = orderfields( response );
+        else
+            results.( phase ).responses(end+1) = orderfields( response );
+        end
         
-    % Mark the trial as done
-    expe.( phase ).trials(itrial).done = 1;
-    
-    % Save the response
-    save(options.res_filename, 'options', 'expe', 'results')
+        expe.( phase ).trials(itrial).done = 1;
+        
+        save(options.res_filename, 'options', 'expe', 'results')
     
         if itrial == options.(phase).total_ntrials
                 gameCommands.Scale = 2; 
@@ -129,8 +111,8 @@ while mean([expe.( phase ).trials.done])~=1 % Keep going while there are some tr
         end
     end
 
-%% 
-function buttondownfcn(hObject, callbackdata)
+%%    
+    function buttondownfcn(hObject, callbackdata)
         
         locClick = get(hObject,'CurrentPoint');
         
@@ -172,18 +154,9 @@ function buttondownfcn(hObject, callbackdata)
              uiresume();
              end
         end
-    end
+    end % end buttondown fcn
    
-
-%     rmpath(spriteKitPath);
 end
 
 
-
-% If we're out of the loop because the phase is finished, tell the subject
-% if mean([expe.( phase ).trials.done])==1
-%     msgbox(sprintf('The "%s" phase is finished. Thank you!', strrep(phase, '_', ' ')), '', 'warn');
-% end
-
-% close all
 
