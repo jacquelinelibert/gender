@@ -28,8 +28,9 @@ function [expe, options] = gender_buildingconditions (options)
     nVtls = length(options.test.vtls);
     
     if is_test_machine
-        options.sound_path = '~/Sounds/NVA_words/equalized';
-        options.tmp_path   = '~/Sounds/NVA_words/processed';
+        options.sound_path = '../Stimuli/equalized';
+        options.tmp_path   = '../Stimuli/processed';
+        options.straight_path = '~/Experiments/Beautiful/lib/STRAIGHTV40_006b';
     else
         [~, name] = system('hostname');
         if strncmp(name, '12-000-4372', 11) % PT's computer

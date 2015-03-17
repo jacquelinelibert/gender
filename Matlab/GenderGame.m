@@ -1,26 +1,32 @@
 function [G, bkg, TVScreen, Buttonup, Buttondown, screen2, Speaker, gameCommands, Hands] = GenderGame  
 %      Setup Game 
 
-    [~, name] = system('hostname');
-    if strncmp(name, '12-000-4372', 11)
-        spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
-        
-     else
-        spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
-%         spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit'; 
+    if is_test_machine
+%         options.spriteKit_path = '~/Experiments/Beautiful/lib/SpriteKit';
+        spriteKitPath = '~/Experiments/Beautiful/lib/SpriteKit';
+    else
+        [~, name] = system('hostname');
+        if strncmp(name, '12-000-4372', 11)
+            spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+            
+        else
+            spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
+            %         spriteKitPath = '/Users/laptopKno/Github/Beautiful/lib/Spritekit';
+        end
     end
-%     spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';
     addpath(spriteKitPath);
 
-[~, screen2] = getScreens();
-fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen2));
+% [~, screen2] = getScreens();
+[screen1, screen2] = getScreens();
+fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen1));
 % We put the game on screen 2
 
 % [HeightBackground, WidthBackground] = size(imread('../Images/genderbackground3_unscaled.png'));
 
-G = SpriteKit.Game.instance('Title','Gender Game', 'Size', [screen2(3)/1.3, screen2(4)/1.2], 'Location', screen2(1:2), 'ShowFPS', false);
+% G = SpriteKit.Game.instance('Title','Gender Game', 'Size', [screen2(3)/1.5, screen2(4)/1.4], 'Location', screen2(1:2), 'ShowFPS', false);
+G = SpriteKit.Game.instance('Title','Gender Game', 'Size', [screen2(3)/1.2, screen2(4)/1.4], 'Location', screen1(1:2), 'ShowFPS', false);
 
-% bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/genderbackground1_unscaled.png'));
+  % bkg = SpriteKit.Background(resizeBackgroundToScreenSize(screen2, '../Images/genderbackground1_unscaled.png'));
 bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
 % addBorders(G);
 
@@ -40,7 +46,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
       pngFile = ['../Images/' spritename '.png'];
       TVScreen.initState (spritename, pngFile, true);
   end
- TVScreen.Location = [screen2(3)/2.58, screen2(4)/2.15];
+ TVScreen.Location = [screen2(3)/2.43, screen2(4)/2.7];
  TVScreen.State = 'off';
 %  TVScreen.Scale = 1.2
 %  ratioscreentvscreen = 0.81 * screen2(3);
@@ -53,7 +59,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  Speaker.initState ('off', ones(1,1,3), true);
  Speaker.initState ('TVSpeaker_1', ['../Images/' 'TVSpeaker_1' '.png'], true);
  Speaker.initState ('TVSpeaker_2', ['../Images/' 'TVSpeaker_2' '.png'], true);
- Speaker.Location = [screen2(3)/2.06, screen2(4)/2.47];
+ Speaker.Location = [screen2(3)/1.94, screen2(4)/3.1];
  Speaker.State = 'TVSpeaker_1';
  
  %       Buttons 
@@ -61,7 +67,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  Buttonup.initState ('on','../Images/buttonup_1.png', true);
  Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
  Buttonup.initState ('off', ones(1,1,3), true);
- Buttonup.Location = [screen2(3)/1.65, screen2(4)/5.5];
+ Buttonup.Location = [screen2(3)/1.55, screen2(4)/5.5];
  Buttonup.State = 'off';
  [HeightButtonup, WidthButtonup] = size(imread ('../Images/buttonup_1.png'));
  
@@ -79,7 +85,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
  Buttondown.initState ('on','../Images/buttondown_1.png', true);
  Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
  Buttondown.initState ('off', ones(1,1,3), true);
- Buttondown.Location = [screen2(3)/1.40, screen2(4)/5.5];
+ Buttondown.Location = [screen2(3)/1.30, screen2(4)/5.5];
  Buttondown.State = 'off';
  [HeightButtondown, WidthButtondown] = size(imread ('../Images/buttondown_1.png'));
  
@@ -123,7 +129,7 @@ bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
       Hands.initState(spritename , pngFile, true);
   end
   addprop(Hands, 'locHands');
-  Hands.locHands{1}  = [screen2(3)/1.6, screen2(4)/1.4];
+  Hands.locHands{1}  = [screen2(3)/1.6, screen2(4)/1.6];
 %   for ihandknob = 1:3
 %       spritename = sprintf('handknob_%d',ihandknob);
 %       pngFile = ['../Images/' spritename '.png'];
