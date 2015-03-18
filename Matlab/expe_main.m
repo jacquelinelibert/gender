@@ -87,12 +87,12 @@ function expe_main(expe, options, phase)
         if autoplayer
             response.button_clicked = randi([0, 1], 1, 1); % default in case they click somewhere else
             response.response_time = 0; 
-            response.timestamp = now();
+            response.timestamp = now;
         else
             tic();
             uiwait();
-            response.response_time = toc();
-            response.timestamp = now();
+            response.response_time = toc;
+            response.timestamp = now;
         end
         response.trial = trial;
         if ~isfield(results, phase)
