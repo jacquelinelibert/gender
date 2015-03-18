@@ -14,9 +14,8 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
     
     addpath(spriteKitPath);
 
-    [~, screen2] = getScreens();
-    fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen2));
-    % game is on screen 2
+    [screen1, screen2] = getScreens();
+    fprintf('Experiment will displayed on: [%s]\n', sprintf('%d ',screen1));
 
     G = SpriteKit.Game.instance('Title','Gender Game', 'Size', [screen2(3)/1.3, screen2(4)/1.2], 'Location', screen2(1:2), 'ShowFPS', false);
 
@@ -130,4 +129,5 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
     Hands.locHands{2} = [screen2(3)/6.8, screen2(4)/6.8]; % for handremote
     Hands.State = 'off';
     % Hands.Location = [screen2(3)/6.5, screen2(4)/4.5]; % for handremote
+
 end

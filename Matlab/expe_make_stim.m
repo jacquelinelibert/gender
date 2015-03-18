@@ -10,18 +10,7 @@ function [x, fs] = expe_make_stim(options, trial)
     warning('off', 'MATLAB:interp1:NaNinY');
 
     x = [];
-
-%  PT:   vsq = {'', ''};
-
-%  ######    REMOVED PT ############
-% for i = 1 : length(trial.word)
-%     
-%     k = mod(i+trial.start_with_standard,2)+1;
-%  ######    REMOVED PT ############    
-
     [y, fs] = straight_process(trial.word, trial.f0, trial.vtl, NaN, options);
-    
-%  PT:   vsq{k} = sprintf('%s%4s    ', vsq{k}, trial.word);
     
     if fs~=options.fs
         y = resample(y, options.fs, fs);
