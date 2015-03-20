@@ -1,4 +1,4 @@
-function [expe, options] = gender_buildingconditions (options)
+function [expe, options] = gender_buildingconditions(options)
 
     %----------- Signal options
     options.fs = 44100;
@@ -23,32 +23,7 @@ function [expe, options] = gender_buildingconditions (options)
     options.test.vtls = [0 1.8 3.6];
     nVtls = length(options.test.vtls);
     
-    if is_test_machine
-        options.sound_path = '../Stimuli/equalized';
-        options.tmp_path   = '../Stimuli/processed';
-        options.straight_path = '~/Experiments/Beautiful/lib/STRAIGHTV40_006b';
-    else
-        [~, name] = system('hostname');
-        if strncmp(name, '12-000-4372', 11) % PT's computer
-            options.sound_path = '~/soundFiles/Sounds/NVA_words/equalized';
-            options.tmp_path   = '~/soundFiles/Sounds/NVA_words/processed';
-            options.sound_path = '~/gitStuff/gender/gender/Stimuli/equalized';
-            options.tmp_path   = '~/gitStuff/gender/gender/Stimuli/processed';
-        else
-            options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/equalized';
-            options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/processed';
-            options.straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
-        end
 
-    end
-
-    if isempty(dir(options.sound_path))
-        error('options.sound_path cannot be empty');
-    end
-
-    if ~exist(options.tmp_path, 'dir')
-        mkdir(options.tmp_path);
-    end
 
     % PT: these were too many...
 %     dir_waves = dir([options.sound_path, '/*.wav']);
@@ -58,7 +33,16 @@ function [expe, options] = gender_buildingconditions (options)
 %         options.words{word} = strrep(word_list{word}, '.wav', '');
 %     end
     
-    word_list = {'Bus','Leeg','Pen', 'Vaak'};
+    if strcmp(options.stage, 'generation')
+        word_list = {'Bus', 'Leeg', 'Pen', 'Vaak', 'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
+    else
+        switch options.language
+            case 'dutch'
+                word_list = {'Bus', 'Leeg', 'Pen', 'Vaak'};
+            case english
+                word_list = {'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
+        end
+    end
     nWords = length(word_list);
     
 
@@ -87,7 +71,8 @@ function [expe, options] = gender_buildingconditions (options)
     options.test.faces = options.test.faces(indexes);
     
     options.test.hands = {'handbang_', 'handremote_'}; % + 'handknob_%d';
-    indexing = repmat ([1:2], 1, 27);
+    indexing = repmat ([1:length(options.test.hands)], 1, ...
+        length(indexes)/length(options.test.hands));
     indexing = indexing (randperm(length(indexes)));
     options.test.hands = options.test.hands(indexing);
     
@@ -101,7 +86,8 @@ function [expe, options] = gender_buildingconditions (options)
                     trial = struct();
                     trial.f0 = options.test.f0s(f0);
                     trial.vtl = options.test.vtls(vtl);
-                    trial.word = options.words{word};
+%                     trial.word = options.words{word};
+                    trial.word = word_list{word};
                     trial.i_repeat = ir;
                     trial.done = 0;
                     trial.face = options.test.faces{counter};
@@ -120,8 +106,13 @@ function [expe, options] = gender_buildingconditions (options)
 
     % ====================================== Create the expe structure and save
 
-    expe.test.trials = test.trials(randperm(length(test.trials)));
-
+    % don't randomize if stimuli are just generated
+    if strcmp(options.stage, 'generation')
+        expe.test.trials = test.trials;
+    else
+        expe.test.trials = test.trials(randperm(length(test.trials)));
+    end
+    
     if isfield(options, 'res_filename')
         save(options.res_filename, 'options', 'expe');
     else
