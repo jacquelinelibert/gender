@@ -39,8 +39,8 @@ function [expe, options] = gender_buildingconditions(options)
         switch options.language
             case 'dutch'
                 word_list = {'Bus', 'Leeg', 'Pen', 'Vaak'};
-            case english
-                word_list = {'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
+            case 'english'
+                word_list = {'bike', 'hat', 'pool', 'watch'};
         end
     end
     nWords = length(word_list);

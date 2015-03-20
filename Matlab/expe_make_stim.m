@@ -44,15 +44,8 @@ function [x, fs] = expe_make_stim(options, trial)
     
     x = [x; y];
     
-%  ######    REMOVED PT ############
-%     if i~=length(trial.word)
-%         x = [x; zeros(floor(fs*options.inter_syllable_silence), 1)];
-%     end
-% end
-%  ######    REMOVED PT ############
 
-
-    fprintf('%s -- F0: %5.1f Hz, VTL: %4.2f -- %s\n', trial.word, trial.f0, trial.vtl);
+    fprintf('%s -- F0: %5.1f Hz, VTL: %4.2f\n', trial.word, trial.f0, trial.vtl);
 
     if ~isnan(options.lowpass)
         [b, a] = butter(4, options.lowpass*2/fs, 'low');

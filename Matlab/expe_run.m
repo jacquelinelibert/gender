@@ -11,11 +11,13 @@ function expe_run(varargin)
 %   expe_run('tryout', 'testing', 'english')
 %   expe_run
 
-    subject = 'tryout';
+    subject = 'fake';
     phase = 'test';
+    options.language = 'english';
     options.stage = phase;
     switch nargin 
         case 1
+            subject = 'tryout';
             options.stage = 'generation';
         case 3
             subject = varargin{1};

@@ -5,7 +5,7 @@ function expe_main(expe, options, phase)
     starting = 0;
 
     autoplayer = false;
-    if strcmp(options.subject_name, 'tryout');
+    if strcmp(options.subject_name, 'fake');
         autoplayer = true;
     end
 
@@ -36,6 +36,9 @@ function expe_main(expe, options, phase)
     while mean([expe.(phase).trials.done])~=1 % Keep going while there are some trials to do
     
      
+        if autoplayer 
+            starting = 1;
+        end
         % If we start, display a message
         if starting == 0
             uiwait();
