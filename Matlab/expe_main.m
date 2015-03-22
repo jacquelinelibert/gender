@@ -5,7 +5,7 @@ function expe_main(expe, options, phase)
     starting = 0;
 
     autoplayer = false;
-    if strcmp(options.subject_name, 'tryout');
+    if strcmp(options.subject_name, 'fake');
         autoplayer = true;
     end
 
@@ -14,7 +14,7 @@ function expe_main(expe, options, phase)
         [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = GenderGame;
         G.onMouseRelease = @buttondownfcn;
     else
-        opt = char(questdlg(sprintf('%s phase COMPLETE. Run again', phase),'CRM','Yes','No','Yes'));
+        opt = char(questdlg(sprintf('%s phase COMPLETE. Run again?', phase),'CRM','Yes','No','Yes'));
         switch opt
             case 'Yes'
                 if ~strcmp(options.subject_name, 'tryout');
@@ -23,6 +23,8 @@ function expe_main(expe, options, phase)
                     nRep = nRep + 1;
                     options.subject_name  = sprintf('%s%s_%02.0f.mat', options.result_prefix, options.subject_name, nRep);
                     options.res_filename = fullfile(options.result_path, options.subject_name);
+                    [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = GenderGame;
+                    G.onMouseRelease = @buttondownfcn;
                 end
                 [expe, options] = gender_buildingconditions(options);
             case 'No'
@@ -34,6 +36,9 @@ function expe_main(expe, options, phase)
     while mean([expe.(phase).trials.done])~=1 % Keep going while there are some trials to do
     
      
+        if autoplayer 
+            starting = 1;
+        end
         % If we start, display a message
         if starting == 0
             uiwait();

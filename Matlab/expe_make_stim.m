@@ -22,18 +22,20 @@ function [x, fs] = expe_make_stim(options, trial)
         npad_L = floor(dl/20);
         npad_R = dl-npad_L;
         nr = floor(1e-3*fs);
-        y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';% PT: matrix error
+        % PT: matrix error with dutch stimuli
+        y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';
         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)';
         y = [zeros(npad_L,1); y; zeros(npad_R,1)];
+        % PT: matrix error with english stimuli
 %         y(1:nr) = y(1:nr) .* linspace(0, 1, nr);
 %         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr);
 %         y = [zeros(npad_L,1); y; zeros(npad_R,1)];
     elseif dl<0
         y = y(1:end+dl);
         nr = floor(1e-3*fs); % 1 ms linear ramp at the end
-%         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)'; % PT:
+        y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr)'; 
 %         this gives a matrix dimensions must agree error
-        y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr);
+%         y(end-nr+1:end) = y(end-nr+1:end) .* linspace(1, 0, nr);
     else
         nr = floor(1e-3*fs);
         y(1:nr) = y(1:nr) .* linspace(0, 1, nr)';
@@ -42,15 +44,8 @@ function [x, fs] = expe_make_stim(options, trial)
     
     x = [x; y];
     
-%  ######    REMOVED PT ############
-%     if i~=length(trial.word)
-%         x = [x; zeros(floor(fs*options.inter_syllable_silence), 1)];
-%     end
-% end
-%  ######    REMOVED PT ############
 
-
-    fprintf('F0: %5.1f Hz, VTL: %4.2f -- %s\n', trial.f0, trial.vtl);
+    fprintf('%s -- F0: %5.1f Hz, VTL: %4.2f\n', trial.word, trial.f0, trial.vtl);
 
     if ~isnan(options.lowpass)
         [b, a] = butter(4, options.lowpass*2/fs, 'low');
@@ -88,7 +83,7 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
     wavIn = fullfile(options.sound_path, [word, '.wav']);
     wavOut = make_fname(wavIn, nb_st, vtl, d, options.tmp_path);
 
-    disp(word)
+%     disp(word)
 %     if ~exist(wavOut, 'file') || options.force_rebuild_sylls % PT: forced
 %     rebuilding?
     if ~exist(wavOut, 'file')
@@ -97,9 +92,9 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
 
         mat = strrep(wavIn, '.wav', '.straight.mat');
         
-        disp(wavIn)
-        disp(mat)
-        
+%         disp(wavIn)
+%         disp(mat)
+         
         if exist(mat, 'file')
             load(mat);
         else

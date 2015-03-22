@@ -19,7 +19,7 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
 
     G = SpriteKit.Game.instance('Title','Gender Game', 'Size', [screen2(3)/1.3, screen2(4)/1.2], 'Location', screen2(1:2), 'ShowFPS', false);
 
-    bkg = SpriteKit.Background('../Images/genderbackground3_unscaled.png');
+    SpriteKit.Background('../Images/genderbackground3_unscaled.png');
 
     TVScreen = SpriteKit.Sprite('tvscreen');
     TVScreen.initState('off', ones(1,1,3),true); % whole screen green
