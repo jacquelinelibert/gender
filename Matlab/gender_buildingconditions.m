@@ -33,16 +33,18 @@ function [expe, options] = gender_buildingconditions(options)
 %         options.words{word} = strrep(word_list{word}, '.wav', '');
 %     end
     
-    if strcmp(options.stage, 'generation')
-        word_list = {'Bus', 'Leeg', 'Pen', 'Vaak', 'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
-    else
+     if strcmp(options.stage, 'generation')
+         word_list = {'Bus', 'Leeg', 'Pen', 'Vaak', 'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
+     else
         switch options.language
             case 'dutch'
                 word_list = {'Bus', 'Leeg', 'Pen', 'Vaak'};
             case 'english'
                 word_list = {'bike', 'hat', 'pool', 'watch'};
         end
-    end
+     end
+     
+%     end
     nWords = length(word_list);
     
 
@@ -107,11 +109,11 @@ function [expe, options] = gender_buildingconditions(options)
     % ====================================== Create the expe structure and save
 
     % don't randomize if stimuli are just generated
-    if strcmp(options.stage, 'generation')
-        expe.test.trials = test.trials;
-    else
+     if strcmp(options.stage, 'generation')
+         expe.test.trials = test.trials;
+     else
         expe.test.trials = test.trials(randperm(length(test.trials)));
-    end
+     end
     
     if isfield(options, 'res_filename')
         save(options.res_filename, 'options', 'expe');
