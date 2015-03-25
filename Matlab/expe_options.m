@@ -2,6 +2,7 @@ function options = expe_options(options)
 
     if is_test_machine
         options.result_path   = '~/resultsBeautiful/Gender';
+        % options.straight_path = '../lib/STRAIGHTV40_006b'; 
         options.sound_path = '../Stimuli/equalized';
         options.tmp_path   = '../Stimuli/processed';
         options.straight_path = '~/Experiments/Beautiful/lib/STRAIGHTV40_006b';
@@ -19,6 +20,10 @@ function options = expe_options(options)
             options.straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';
         end
     end
+
+%     options.result_prefix = 'gen_';
+
+
 
     options.result_prefix = 'gen_';
     
