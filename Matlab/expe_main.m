@@ -13,6 +13,7 @@ function expe_main(expe, options, phase)
     if (mean([expe.(phase).trials.done])~=1)
         [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = GenderGame;
         G.onMouseRelease = @buttondownfcn;
+        G.onKeyPress = @keypressfcn;
     else
         opt = char(questdlg(sprintf('%s phase COMPLETE. Run again?', phase),'CRM','Yes','No','Yes'));
         switch opt
@@ -71,7 +72,7 @@ function expe_main(expe, options, phase)
                 break;
             end
         end
-        
+        uiwait
         locHand = 1;
         if (strncmp(expe.(phase).trials(itrial).hands, 'handremote',10))
             locHand = 2;
@@ -160,6 +161,13 @@ function expe_main(expe, options, phase)
              end
         end
     end % end buttondown fcn
+
+    function keypressfcn(~,e)
+        if strcmp(e.Key, 'control') % OR 'space'
+            uiresume;
+            tic();
+        end
+    end
    
 end
 
