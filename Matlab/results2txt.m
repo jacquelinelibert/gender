@@ -2,7 +2,7 @@
 fileID = fopen('allResults.txt', 'wt');
 fprintf(fileID,'subID\tphase\tf0\tvtl\tface\tword\thands\tbutton\tRT \n');
 
-cd('/home/paolot/results/gender/');
+cd('C:/Users/Jacqueline Libert/Documents/GitHub/Results/Gender/Result files');
 
 files = dir('*.mat');
 nFiles = length(files);
