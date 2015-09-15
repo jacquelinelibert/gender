@@ -14,7 +14,7 @@ function options = expe_options(options)
             options.tmp_path   = '~/gitStuff/gender/gender/Stimuli/processed';
             options.straight_path = '/home/paolot/gitStuff/Beautiful/lib/STRAIGHTV40_006b';
         else
-            options.result_path   = '../results';
+            options.result_path   = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Gender/Data';
             options.sound_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/equalized';
             options.tmp_path = 'C:/Users/Jacqueline Libert/Documents/Github/Gender/Stimuli/processed';
             options.straight_path = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/STRAIGHTV40_006b';

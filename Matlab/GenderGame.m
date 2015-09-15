@@ -50,12 +50,12 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
     Speaker.State = 'TVSpeaker_1';
     
     Buttonup = SpriteKit.Sprite ('buttonup');
-    Buttonup.initState ('on','../Images/buttonup_1.png', true);
-    Buttonup.initState('press', '../Images/buttonuppress_1.png', true)
+    Buttonup.initState ('on','../Images/button_right.png', true);
+    Buttonup.initState('press', '../Images/button_right_pressed.png', true)
     Buttonup.initState ('off', ones(1,1,3), true);
     Buttonup.Location = [screen2(3)/1.65, screen2(4)/5.5];
     Buttonup.State = 'off';
-    [HeightButtonup, WidthButtonup] = size(imread ('../Images/buttonup_1.png'));
+    [HeightButtonup, WidthButtonup] = size(imread ('../Images/button_right.png'));
     
     addprop(Buttonup, 'clickL');
     addprop(Buttonup, 'clickR');
@@ -68,12 +68,12 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
     Buttonup.Depth = 2;
     
     Buttondown = SpriteKit.Sprite ('buttondown');
-    Buttondown.initState ('on','../Images/buttondown_1.png', true);
-    Buttondown.initState ('press', '../Images/buttondownpress_1.png', true);
+    Buttondown.initState ('on','../Images/button_wrong.png', true);
+    Buttondown.initState ('press', '../Images/button_wrong_pressed.png', true);
     Buttondown.initState ('off', ones(1,1,3), true);
     Buttondown.Location = [screen2(3)/1.40, screen2(4)/5.5];
     Buttondown.State = 'off';
-    [HeightButtondown, WidthButtondown] = size(imread ('../Images/buttondown_1.png'));
+    [HeightButtondown, WidthButtondown] = size(imread ('../Images/button_wrong.png'));
     
     addprop(Buttondown, 'clickL');
     addprop(Buttondown, 'clickR');
