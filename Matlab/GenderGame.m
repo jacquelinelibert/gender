@@ -4,8 +4,8 @@ function [G, TVScreen, Buttonup, Buttondown, Speaker, gameCommands, Hands] = Gen
         spriteKitPath = '~/Experiments/Beautiful/lib/SpriteKit';
     else
         [~, name] = system('hostname');
-        if strncmp(name, '12-000-4372', 11)
-            spriteKitPath = '/home/paolot/gitStuff/Beautiful/lib/SpriteKit';
+        if strncmp(name, 'debian', 6)
+            spriteKitPath = '~/gitStuff/Beautiful/lib/SpriteKit';
             
         else
             spriteKitPath = 'C:/Users/Jacqueline Libert/Documents/GitHub/BeautifulFishy/lib/SpriteKit';

@@ -8,7 +8,7 @@ function expe_run(varargin)
 %
 %   3) expe_run(subject, phase) 
 %   phase can be: 'training', 'test'
-%   expe_run('tryout', 'testing', 'english')
+%   expe_run('tryout', 'test', 'english')
 %   expe_run
 
     subject = 'fake';
@@ -23,7 +23,7 @@ function expe_run(varargin)
             subject = varargin{1};
             phase = varargin{2};
             options.language = varargin{3};
-            options.stage = phase;
+%             options.stage = phase;
     end
     
     options = expe_options(options);

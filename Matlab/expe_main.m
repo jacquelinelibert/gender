@@ -39,6 +39,7 @@ function expe_main(expe, options, phase)
      
         if autoplayer 
             starting = 1;
+            gameCommands.State = 'empty';
         end
         % If we start, display a message
         if starting == 0
@@ -61,7 +62,7 @@ function expe_main(expe, options, phase)
         pause(.5);
         iter = 1;
         
-        play (player)
+        play(player)
         while true
             TVScreen.State = 'noise'; 
             Speaker.State = ['TVSpeaker_' sprintf('%i', mod(iter, 2)+1)];
@@ -72,7 +73,12 @@ function expe_main(expe, options, phase)
                 break;
             end
         end
-        uiwait
+
+        % why is this here?
+%         if ~autoplayer
+%             uiwait
+%         end
+
         locHand = 1;
         if (strncmp(expe.(phase).trials(itrial).hands, 'handremote',10))
             locHand = 2;
@@ -140,16 +146,17 @@ function expe_main(expe, options, phase)
                 response.button_clicked = 2;
             end
             
-            pause(0.5)
-            
-            Buttonup.State = 'off';
-            Buttondown.State = 'off';
-            
-            fprintf('Clicked button: %d\n', response.button_clicked);
-            fprintf('Trials: %d\n', itrial);
-            fprintf('Response time : %d ms\n\n', round(response.response_time*1000));
-            
-            uiresume 
+            % continue if only one of the two buttons is clicked upon
+            % otheriwse not
+            if response.button_clicked ~= 0
+                pause(0.5)
+                Buttonup.State = 'off';
+                Buttondown.State = 'off';
+                fprintf('Clicked button: %d\n', response.button_clicked);
+                fprintf('Trials: %d\n', itrial);
+                fprintf('Response time : %d ms\n\n', round(response.response_time*1000));
+                uiresume
+            end
             
         else
              if (locClick(1) >= gameCommands.clickL) && (locClick(1) <= gameCommands.clickR) && ...
