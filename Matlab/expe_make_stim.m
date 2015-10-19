@@ -102,6 +102,7 @@ function [y, fs] = straight_process(word, nb_st, vtl, d, options)
             % PT: remove the stereo channel if present the files for gender
             % are mono anyway, the second channel is empty
 %             x(:, 2) = [];
+            x = x(:, 1);
             % x = squeeze(x); % PT: just to make sure
             [f0, ap] = exstraightsource(x, fs);
             sp = exstraightspec(x, f0, fs);

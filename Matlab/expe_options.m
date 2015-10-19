@@ -10,8 +10,8 @@ function options = expe_options(options)
         [~, name] = system('hostname');
         if strncmp(name, 'debian', 6) % PT's computer
             options.result_path   = '~/results/gender';
-            options.sound_path = '~/gitStuff/gender/gender/Stimuli/equalized';
-            options.tmp_path   = '~/gitStuff/gender/gender/Stimuli/processed';
+            options.sound_path = '~/ownCloud/NVA/equalized';
+            options.tmp_path   = '/mnt/disk2/processedSounds/NVA/gender/';
             options.straight_path = '~/gitStuff/Beautiful/lib/STRAIGHTV40_006b';
         else
             options.result_path   = 'C:/Users/Jacqueline Libert/Documents/Github/Results/Gender/Data';

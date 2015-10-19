@@ -18,9 +18,12 @@ function [expe, options] = gender_buildingconditions(options)
     %  added training, maybe for young kids good to see if they understand
 
     % -------- Stimuli options
-    options.test.f0s = [0 -6 -12];
+    options.test.f0s = [0 -6 -12]; % kids version
+    options.test.f0s = [0 -3 -6 -9 -12]; % adults version
+    
     nF0 = length(options.test.f0s);
-    options.test.vtls = [0 1.8 3.6];
+    options.test.vtls = [0 1.8 3.6]; % kids version
+    options.test.vtls = [0 .7 1.6 2.4 3 3.6]; % adults version
     nVtls = length(options.test.vtls);
     
 
@@ -34,7 +37,7 @@ function [expe, options] = gender_buildingconditions(options)
 %     end
     
      if strcmp(options.stage, 'generation')
-         word_list = {'Bus', 'Leeg', 'Pen', 'Vaak', 'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
+         word_list = {'Bus', 'Leeg', 'Pen', 'Vaak'};% we are not using englihs stimuli anymore - I also don't really have them, 'bike', 'hat', 'pool', 'shoe', 'space', 'watch'};
      else
         switch options.language
 %             case 'Dutch'

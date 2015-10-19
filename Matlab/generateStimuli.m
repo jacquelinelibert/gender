@@ -1,6 +1,6 @@
 function generateStimuli(options, phase)
     
-    % remove the all the generate files:
+    % remove all the generated files:
     % sound files, wav files, response structure
     delete(options.res_filename);
     delete([options.sound_path '/*.mat']);
